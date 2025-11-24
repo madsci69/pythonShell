@@ -4,7 +4,7 @@ import shutil
 import subprocess
 from sys import executable
 
-shellFunction = {'exit': exit_shell, 'echo': echo, 'type': typeShell, 'pwd': present_directory}
+
 
 def find_function(function):
     path = os.environ.get('PATH')
@@ -37,19 +37,15 @@ def typeShell(userInput):
         else:
             print(f"{typeInput}: not found")
 
-def exitShell(status):
-    status = "".join(status)
-    if status == '0':
-        return True
-    else:
-        return False
+def exit_shell(status = 0):
+        sys.exit(status)
         
 def echo(input):
     inputJoined = " ".join(input)
     print(inputJoined)
     
 
-def shellInput(input):
+def shellInput(userInput):
     if not userInput:
         return None
     separated_input = userInput.split()
@@ -83,6 +79,8 @@ def run_function_no_args(path):
     head, tail = os.path.split(path)
     local_function = [tail]
     subprocess.run(local_function)
+    
+shellFunction = {'exit': exit_shell, 'echo': echo, 'type': typeShell, 'pwd': present_directory}
     
 def main():
     while True:
