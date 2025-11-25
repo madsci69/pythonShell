@@ -29,7 +29,7 @@ def present_directory():
 def typeShell(userInput):
     typeInput = "".join(userInput)
     if typeInput in shellFunction:
-        print(f"{typeInput} is a shell builtin")
+        print(f"{typeInput} is a shell built in")
     else:
         foundPath = find_function(typeInput)
         if foundPath:
@@ -80,11 +80,28 @@ def run_function_no_args(path):
     local_function = [tail]
     subprocess.run(local_function)
     
-shellFunction = {'exit': exit_shell, 'echo': echo, 'type': typeShell, 'pwd': present_directory}
+def change_prompt(new_prompt):
+    p_s_1 = new_prompt
+    return None
+def change_directory(path):
+    path = "".join(path)
+    if path == '~':
+        try:
+            os.chdir(os.getenv('HOME'))
+        except FileNotFoundError:
+            print("How do you not have a home??")
+    else:
+        try:
+            os.chdir(path)
+        except FileNotFoundError:
+            print(f"{path} is not a valid file or directory. ")
+p_s_1 = "$ "
+    
+shellFunction = {'exit': exit_shell, 'echo': echo, 'type': typeShell, 'pwd': present_directory, 'cd': change_directory}
     
 def main():
     while True:
-        sys.stdout.write("$ ")
+        sys.stdout.write(p_s_1)
         userInput = input()
         returned_input = shellInput(userInput)
 
